@@ -11,7 +11,7 @@ def login():
 
 @app.route('/')
 def index():
-  return render_template('home.html')
+  return render_template('index.html')
 
 @app.route('/register')
 def register():
@@ -29,6 +29,13 @@ def forgot_password():
 def page_not_found(e):
   return render_template('404.html'), 404
 
+@app.route('/create_appointment')
+def create_schedule():
+  return render_template('appointment.html')
+
+@app.route('/dashboard')
+def dashboard():
+  return render_template('dashboard.html')
 
 
 if __name__ == '__main__':
