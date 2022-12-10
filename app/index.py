@@ -1,4 +1,5 @@
-from flask import render_template
+from flask import render_template, request
+from app import dao
 import sys
                           
 sys.path.append("./")  
@@ -29,8 +30,13 @@ def forgot_password():
 def page_not_found(e):
   return render_template('404.html'), 404
 
-@app.route('/create_appointment')
+@app.route('/create_appointment', methods=['GET', 'POST'])
 def create_schedule():
+  if request.method == 'POST':
+    patient_name = request.form['patientName']
+    sex = request.form['sex']
+    birth_date = request.form['birthDate']
+    # dao.save_appointment(patient_name=patient_name, sex=sex, birth_date=birth_date)
   return render_template('appointment.html')
 
 @app.route('/dashboard')

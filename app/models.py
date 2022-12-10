@@ -56,7 +56,10 @@ class Appointment(BaseModel):
     patient_name = Column(String(50), nullable=False)
     sex = Column(String(20), nullable=False)
     birth_date = Column(Date, nullable=False)
-    schedule = relationship('Schedule', backref='appointment', lazy=False)
+    # schedule = relationship('Schedule', backref='appointment', lazy=False)
+
+    def __str__(self):
+        return self.patient_name
 
 
 class Schedule(BaseModel):
@@ -89,3 +92,4 @@ class PrescriptionDetails(BaseModel):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+        
