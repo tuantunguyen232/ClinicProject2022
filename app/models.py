@@ -32,20 +32,24 @@ class User(BaseModel):
     def __str__(self):
         return self.name
 
-# class Medicine(BaseModel):
-#     name = Column(String(50), nullable=False)
-#     unit = Column(String(50), nullable=False)
-#     price = Column(Float, nullable=False)
-#     in_stock = Column(Boolean, nullable=False)
-#     exp_date = Column(Date, nullable=False)
+class Medicine(BaseModel):
+    name = Column(String(50), nullable=False)
+    unit = Column(String(50), nullable=False)
+    price = Column(Float, nullable=False)
+    in_stock = Column(Integer, nullable=False)
+    exp_date = Column(Date, nullable=False)
+    category_id = Column(Integer, ForeignKey('category.id'), nullable=False)
 
+    def __str__(self):
+        return self.name
 
-#     def __str__(self):
-#         return self.name
+class MedicineCategory(BaseModel):
+    __tablename__ = 'category'
+    name = Column(String(50), nullable=False)
+    medicine = relationship('Medicine',  backref='category', lazy=False)
 
-# class MedicineCategory(BaseModel):
-#     name = Column(String(50), nullable=False)
-#     # medicines = relationship('Medicine', backref='category', lazy=False)
+    def __str__(self):
+        return self.name
 
 
 class Appointment(BaseModel):
@@ -89,8 +93,11 @@ class Schedule(BaseModel):
 
 if __name__ == "__main__":
     with app.app_context():
-        # a = Appointment(patient_name='Phan', sex='Male', birth_date=date(1995, 11, 3))
-        # db.session.add(a)
+        # medicineCat1 = MedicineCategory(name="Aspirine")
+        # medicine1 = Medicine(name="Paracetamol", unit="pill", price=30000, in_stock=True, exp_date=date(1945, 11, 3), category_id=1)
+        # db.session.add(medicineCat1)
+        # db.session.add(medicine1)
         # db.session.commit()
+
         db.create_all()
         
