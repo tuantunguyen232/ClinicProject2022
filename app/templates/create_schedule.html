@@ -1,4 +1,50 @@
 {% extends 'layout/home.html' %}
-{% block content %}
-<div class="h1">NOT YET</div>
+{% block page_content %}
+<div class="container-fluid">
+    <div class="h1 text-center">CREATE SCHEDULE</div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Patient List</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" name="patientList">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Name</th>
+                                <th>Sex</th>
+                                <th>Birth Date</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>id</th>
+                                <th>Name</th>
+                                <th>Sex</th>
+                                <th>Birth Date</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% if patients %}
+                            {% for p in patients %}
+                            <tr>
+                                <td>{{ p.id }}</td>
+                                <td>{{ p.patient_name }}</td>
+                                <td>{{ p.sex }}</td>
+                                <td>{{ p.birth_date }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <a href="/create_schedule/save_list" class="btn btn-primary pl-5 pr-5">POST</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</div>
+
 {% endblock %}

@@ -13,9 +13,9 @@
             {{ render_input("patientName", "Patient Name", "text", placeholder="Enter patient name...")}}
             <div class="form-check p-0">
                 <label for="male" class="d-block h5 mt-3">Sex:
-                    <input type="radio" name="sex" id="male" class="ml-1" id="radio-1">
+                    <input type="radio" name="sex" id="male" class="ml-1" id="radio-1" value="Male">
                     <label for="male" class="col-form-label-sm">Male</label>
-                    <input type="radio" name="sex" id="female" class="ml-3">
+                    <input type="radio" name="sex" id="female" class="ml-3" value="Female">
                     <label for="female" class="col-form-label-sm">Female</label>
             </div>
             {{ render_input("birthDate", "Birth Date", "date")}}
