@@ -1,10 +1,11 @@
 from flask import render_template, request, redirect, url_for
 from app import dao
+from flask import render_template, request
 import sys
                           
 sys.path.append("./")  
+from app import dao, app
 
-from app import app
 
 @app.route('/login')
 def login():
@@ -52,6 +53,14 @@ def create_schedule():
     birth_date = request.form['birthDate']
     dao.save_appointment(patient_name=patient_name, sex=sex, birth_date=birth_date)
   return render_template('appointment.html')
+
+@app.route('/checkup')
+def create_checkup():
+  return render_template('create_checkup.html')
+
+@app.route('/create_bill')
+def create_bill():
+  return render_template('create_bill.html')
 
 @app.route('/dashboard')
 def dashboard():
