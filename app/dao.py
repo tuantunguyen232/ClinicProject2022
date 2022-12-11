@@ -35,4 +35,3 @@ if __name__ == "__main__":
         a = Appointment(patient_name="Phan", sex="Female", birth_date=date(1945, 11, 5))
         db.session.add(a)
         db.session.commit()
-

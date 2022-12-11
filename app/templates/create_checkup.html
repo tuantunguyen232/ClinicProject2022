@@ -2,7 +2,7 @@
 <label for="{{for_label}}" class="d-block h5 mt-3">{{label_text}}:</label>
 <input type="{{input_type}}" class="form-control form-control-md" placeholder="{{placeholder}}" id="{{for_label}}">
 {%- endmacro -%}
-{% extends 'layout\home.html' %}
+{% extends 'layout/home.html' %}
 {% block page_content %}
 <div class="container-fluid d-flex flex-column">
     <div class="text-center">
@@ -20,28 +20,9 @@
                     <label for="female" class="col-form-label-sm">Female</label>
             </div>
             {{ render_input("birthDate", "Birth Date", "date")}}
-        </br>
-            <div class="row">
-                <div class="col">
-                    <label for="weight" class="form-label">Weight:</label>
-                    <input type="text" class="form-control" placeholder="..." name="weight">
-                </div>
-                <div class="col">
-                    <label for="height" class="form-label">Height:</label>
-                    <input type="text" class="form-control" placeholder="..." name="height">
-                </div>
-                <div class="col">
-                    <label for="blood-pressure" class="form-label">Blood Pressure:</label>
-                    <input type="text" class="form-control" placeholder="..." name="blood-pressure">
-                </div>
-            </div>
-            
-            <div class="mb-3 mt-3">
-                <label for="symptom" class="form-label">Symptom:</label>
-                <input type="text" class="form-control" id="symptom" placeholder="Enter symptoms..." name="symptom">
-            </div>
-            
-            <label for="diagnosis">Diagnosis:</label>
+            {{ render_input("symptom", "Symptom", "text", placeholder="Enter symptom...")}}
+            <br>
+            <label for="diagnosis" class="h5 mt-2">Diagnosis:</label>
                 <textarea class="form-control" rows="4" id="diagnosis" name="diagnosis"></textarea>
 
             
