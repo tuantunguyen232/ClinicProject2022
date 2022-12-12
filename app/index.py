@@ -1,14 +1,15 @@
-from flask import render_template, request, redirect, url_for, session
-from app import dao, login
-from app.admin import *
+from flask import render_template, request, redirect, url_for
+
 from flask import render_template, request
-import sys, datetime
+import sys
+                          
+sys.path.append("./")  
 from app.models import UserRoleEnum
 from flask_login import login_user, current_user, logout_user, AnonymousUserMixin
 from app.utils import load_json
-                          
-sys.path.append("./")  
-from app import dao, app
+from app import dao, login
+from app.admin import *
+from app import app
 
 
 @app.route('/signin', methods=['get', 'post'])
@@ -94,12 +95,15 @@ def create_appointment():
     dao.save_appointment(patient_name=patient_name, sex=sex, birth_date=birth_date)
   return render_template('appointment.html')
 
+@app.route('/checkup')
+def create_checkup():
+  return render_template('create_checkup.html')
 
 @app.route('/create_bill')
 def create_bill():
   return render_template('create_bill.html')
 
-@app.route('/dashboard', methods=['get', 'post'])
+@app.route('/dashboard')
 def dashboard():
   return render_template('dashboard.html')
 
@@ -109,40 +113,12 @@ def create_schedule():
   patients = dao.get_patients_list()
   return render_template('create_schedule.html', patients=patients)
 
-
 @app.route('/create_schedule/save_list')
 def save_list():
   patients = dao.get_patients_list()
   dao.save_schedule(patients=patients)
-
   return redirect('/create_schedule')
-
-@app.route('/checkup')
-def create_checkup():
-  return render_template('create_checkup.html')
   
-@app.route('/api/prescription')
-def add_prescription():
-  detail_id=''
-  dose=''
-  usage=''
-  medicine_id=''
-  unit=''
-  prescription = session.get('prescription')
-  if prescription:
-    prescription = {}
-  
-  if medicine_id in prescription:
-    return
-  else:
-    prescription[detail_id] = {
-      'id': detail_id, 
-      'dose': dose,
-      'usage': usage,
-      'medicine_id': medicine_id,
-      'unit': unit
-    }
-
 @app.context_processor
 def common_data():
   if hasattr(current_user, 'user_role'):
@@ -158,10 +134,6 @@ def common_data():
     return {
       'image' : ' '
     }
-def inject_date():
-  return {
-    'today_date': datetime.date.today()
-  }
 
 if __name__ == '__main__':
   app.run(debug=True)
