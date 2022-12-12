@@ -130,18 +130,21 @@ def add_prescription():
   unit=''
   prescription = session.get('prescription')
   if prescription:
-    prescription = {}
+    prescription = []
   
   if medicine_id in prescription:
     return
   else:
-    prescription[detail_id] = {
+    prescription_data = {
       'id': detail_id, 
       'dose': dose,
       'usage': usage,
       'medicine_id': medicine_id,
       'unit': unit
     }
+    prescription.append(prescription_data)
+  
+  session['prescription'] = prescription
 
 @app.context_processor
 def common_data():
