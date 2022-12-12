@@ -118,7 +118,33 @@ def save_list():
   patients = dao.get_patients_list()
   dao.save_schedule(patients=patients)
   return redirect('/create_schedule')
+
+@app.route('/checkup')
+def create_checkup():
+  return render_template('create_checkup.html')
   
+@app.route('/api/prescription')
+def add_prescription():
+  detail_id=''
+  dose=''
+  usage=''
+  medicine_id=''
+  unit=''
+  prescription = session.get('prescription')
+  if prescription:
+    prescription = {}
+  
+  if medicine_id in prescription:
+    return
+  else:
+    prescription[detail_id] = {
+      'id': detail_id, 
+      'dose': dose,
+      'usage': usage,
+      'medicine_id': medicine_id,
+      'unit': unit
+    }
+
 @app.context_processor
 def common_data():
   if hasattr(current_user, 'user_role'):

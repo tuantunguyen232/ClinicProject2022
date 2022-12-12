@@ -1,8 +1,7 @@
 {% extends 'layout/home.html' %}
-{% macro render_input(for_label, label_text, input_type, placeholder="", disabled=False) -%}
+{% macro render_input(for_label, label_text, input_type, placeholder="") -%}
 <label for="{{for_label}}" class="d-block h5 mt-3" >{{label_text}}:</label>
-<input type="{{input_type}}" class="form-control form-control-md" placeholder="{{placeholder}}" id="{{for_label}}"
-{% if disabled %}disabled{% endif %}>
+<input type="{{input_type}}" class="form-control form-control-md" placeholder="{{placeholder}}" id="{{for_label}}">
 {%- endmacro -%}
 {% block page_content %}
 <div class="container-fluid d-flex flex-column">
@@ -11,7 +10,7 @@
     </div>
     <form action="post" class="mt-2 ml-5">
         <div class="form-group">
-            {{ render_input("checkupDate", "Checkup Date", "date", today_date, disabled=True)}}
+            {{ render_input("checkupDate", "Checkup Date", "date")}}
             {{ render_input("patientName", "Patient Name", "text", placeholder="Enter patient name...")}}
             <div class="form-check p-0">
                 <label for="male" class="d-block h5 mt-3">Sex:
@@ -39,31 +38,29 @@
                             name="prescription">
                             <thead>
                                 <tr>
-                                    <th>id</th>
-                                    <th>Name</th>
-                                    <th>Sex</th>
-                                    <th>Birth Date</th>
+                                    <th>Medicine Id</th>
+                                    <th>Medicine Name</th>
+                                    <th>Dose</th>
+                                    <th>Usage</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>id</th>
-                                    <th>Name</th>
-                                    <th>Sex</th>
-                                    <th>Birth Date</th>
+                                    <th>Medicine Id</th>
+                                    <th>Medicine Name</th>
+                                    <th>Dose</th>
+                                    <th>Usage</th>
                                 </tr>
                             </tfoot>
-                            <tbody>
-                                {% if patients %}
-                                {% for p in patients %}
+                            <tbody id="prescriptionDetail">
                                 <tr>
-                                    <td>{{ p.id }}</td>
-                                    <td>{{ p.patient_name }}</td>
-                                    <td>{{ p.sex }}</td>
-                                    <td>{{ p.birth_date }}</td>
+                                    <td class="col-xs-2"><input type="text" name="medicine_id" id="medicine_id"></td>
+                                    <td class="col-xs-2"><input type="text" name="medicine_name" id="medicine_name"></td>
+                                    <td class="col-xs-2"><input type="text" name="dose" id="dose"></td>
+                                    <td class="col-xs-2"><input type="text" name="usage" id="usage"></td>
+                                    <td><div class="btn btn-success">Add</div></td>
+                                    <td><div class="btn btn-danger">Delete</a></td>
                                 </tr>
-                                {% endfor %}
-                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -81,4 +78,5 @@
 
 
 </div>
+<script src="{{url_for('static', filename='js/prescription.js')}}" defer></script>
 {% endblock %}
