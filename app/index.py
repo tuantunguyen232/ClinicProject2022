@@ -119,10 +119,6 @@ def save_list():
   dao.save_schedule(patients=patients)
   return redirect('/create_schedule')
 
-@app.route('/checkup')
-def create_checkup():
-  return render_template('create_checkup.html')
-  
 @app.route('/api/prescription')
 def add_prescription():
   detail_id=''
