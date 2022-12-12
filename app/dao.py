@@ -55,6 +55,10 @@ def check_login_admin(username, password, role=UserRoleEnum.PATIENT):
 def get_user_by_id(user_id):
     return User.query.get(user_id)
 
+    
+
+
+
 if __name__ == "__main__":
     with app.app_context():
         a = Appointment(patient_name="Phan", sex="Female", birth_date=date(1945, 11, 5))

@@ -39,6 +39,7 @@ class Medicine(BaseModel):
     in_stock = Column(Integer, nullable=False)
     exp_date = Column(Date)
     category_id = Column(Integer, ForeignKey('category.id'), nullable=False)
+    prescription = relationship('PrescriptionDetails', backref='prescription_medicine', lazy=False)
 
     def __str__(self):
         return self.name
@@ -58,7 +59,7 @@ class Appointment(BaseModel):
     birth_date = Column(Date, nullable=False)
     scheduled = Column(Boolean, default=False)
     schedule_id = Column(Integer, ForeignKey("schedule.id"))
-    user = Column(Integer, ForeignKey("user.id"), nullable=False)
+    user = Column(Integer, ForeignKey("user.id"))
     
 
     def __str__(self):
@@ -91,11 +92,12 @@ class Prescription(BaseModel):
 
 
 class PrescriptionDetails(BaseModel):
-    name = Column(String(50), nullable=False)
-    unit = Column(String(50), nullable=False)
+    dose = Column(String(100), nullable=False)
     usage = Column(String (100), nullable=False)
     checkup = Column(Integer, ForeignKey("checkup.id"))
     prescription = Column(Integer, ForeignKey("prescription.id"))
+    medicine_id = Column(Integer, ForeignKey("medicine.id"))
+
 
 
 if __name__ == "__main__":

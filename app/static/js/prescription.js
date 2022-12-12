@@ -1,0 +1,4 @@
+function addToPrescription() {
+    alert('Hello')
+}
+

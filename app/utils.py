@@ -1,5 +1,6 @@
-import json
+import json, os
 import sys
+from twilio.rest import Client
 
 sys.path.append('./')
 
