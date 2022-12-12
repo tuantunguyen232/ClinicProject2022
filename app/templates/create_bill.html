@@ -10,9 +10,24 @@
     </div>
     <form action="/create_bill" method="post" class="mt-2 ml-5">
         <div class="form-group">
-            {{ render_input("patientName", "Patient Name", "text", placeholder="Enter patient name...")}}
-            {{ render_input("payDay", "Pay Day", "date")}}
+            {{ render_input("checkupDate", "Checkup Date", "date")}}
+            {{ render_input("payDay", "Ngày khám:", "date")}}
             
+            <div class="row">
+                <div class="col h5">
+                    <label for="tienKham" class="form-label mt-3">Tiền khám:</label>
+                    <input type="number" class="form-control" placeholder="..." name="tienKham">
+                </div>
+                <div class="col h5">
+                    <label for="tienThuoc" class="form-label mt-3">Tiền thuốc:</label>
+                    <input type="number" class="form-control" placeholder="..." name="tienThuoc">
+                </div>
+            </div>
+            <div>
+                <label for="tongTien" class="form-label h5 mt-3">Tổng tiền:</label>
+                <input type="number" class="form-control" placeholder="..." name="tongTien">
+            </div>
+
             <div class="text-center">
                 <button class="btn btn-primary mt-5 pl-5 pr-5 mx-auto">POST</button>
             </div>
