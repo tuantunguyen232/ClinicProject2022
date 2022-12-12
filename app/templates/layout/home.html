@@ -20,47 +20,63 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item d-flex flex-column align-items-center justify-content-center">
-                <img src="../static/images/undraw_posting_photo.svg" alt="avatar" class="w-75 mt-3 mb-3">
-                <p class="text-white">Dave Johnson</p>
-                <p class="bi-superscript text-white">Doctor</p>
+                <img src="{{url_for('static', filename=image)}}" alt="avatar" class="w-25 mt-3 mb-3">
+                <p class="text-white">{{ current_user.name }}</p>
+                <p class="bi-superscript text-white">{{ current_user.user_role.name }}</p>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
             <li class="nav-item">
-                <a class="nav-link" href="/home">
+                <a class="nav-link" href="{{ url_for('dashboard')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
             <!-- Heading -->
             <div class="sidebar-heading">
-                MAIN
+                Controls
             </div>
+            
 
             <!-- Nav Item - Pages Collapse Menu -->
+            {% if current_user.user_role.name == 'PATIENT'%}
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
+                <a class="nav-link collapsed" href="{{ url_for('create_appointment')}}">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Chuc nang 1</span>
+                    <span>Create Schedule</span>
                 </a>
             </li>
-
-            <!-- Nav Item - Charts -->
+            {% endif %}
+            {% if current_user.user_role.name == 'DOCTOR'%}
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Chuc nang 2</span></a>
+                <a class="nav-link" href="{{ url_for('create_checkup') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Create Checkup</span></a>
             </li>
-
-            <!-- Nav Item - Tables -->
+            {% endif %}
+            {% if current_user.user_role.name == 'NURSE'%}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{url_for('create_appointment')}}">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Create Appointment</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{url_for('create_schedule')}}">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Create Schedule</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if current_user.user_role.name == 'CASHIER'%}
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Chuc nang 3</span></a>
+                    <span>Create Bill</span></a>
             </li>
+            {% endif %}
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -89,8 +105,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ current_user.name }}</span>
+                                <img class="img-profile rounded-circle" src="{{url_for('static', filename=image)}}" alt="Role Avatar">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -143,7 +159,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{{ url_for('user_logout')}}">Logout</a>
                 </div>
             </div>
         </div>

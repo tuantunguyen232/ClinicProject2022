@@ -1,8 +1,8 @@
+{% extends 'layout/home.html' %}
 {% macro render_input(for_label, label_text, input_type, placeholder="", disabled=False) -%}
 <label for="{{for_label}}" class="d-block h5 mt-3">{{label_text}}:</label>
 <input type="{{input_type}}" class="form-control form-control-md" placeholder="{{placeholder}}" id="{{for_label}}">
 {%- endmacro -%}
-{% extends 'layout\home.html' %}
 {% block page_content %}
 <div class="container-fluid d-flex flex-column">
     <div class="text-center">
@@ -20,38 +20,64 @@
                     <label for="female" class="col-form-label-sm">Female</label>
             </div>
             {{ render_input("birthDate", "Birth Date", "date")}}
-        </br>
-            <div class="row">
-                <div class="col">
-                    <label for="weight" class="form-label">Weight:</label>
-                    <input type="text" class="form-control" placeholder="..." name="weight">
-                </div>
-                <div class="col">
-                    <label for="height" class="form-label">Height:</label>
-                    <input type="text" class="form-control" placeholder="..." name="height">
-                </div>
-                <div class="col">
-                    <label for="blood-pressure" class="form-label">Blood Pressure:</label>
-                    <input type="text" class="form-control" placeholder="..." name="blood-pressure">
-                </div>
-            </div>
-            
             <div class="mb-3 mt-3">
-                <label for="symptom" class="form-label">Symptom:</label>
+                <label for="symptom" class="h5">Symptom:</label>
                 <input type="text" class="form-control" id="symptom" placeholder="Enter symptoms..." name="symptom">
             </div>
-            
-            <label for="diagnosis">Diagnosis:</label>
-                <textarea class="form-control" rows="4" id="diagnosis" name="diagnosis"></textarea>
 
-            
+            <label for="diagnosis" class="h5">Diagnosis:</label>
+            <textarea class="form-control" rows="4" id="diagnosis" name="diagnosis"></textarea>
 
-            <div class="text-center">
-                <button class="btn btn-primary mt-5 pl-5 pr-5 mx-auto">POST</button>
+            <div class="card shadow mb-4 mt-5">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Prescription</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"
+                            name="prescription">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Name</th>
+                                    <th>Sex</th>
+                                    <th>Birth Date</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Name</th>
+                                    <th>Sex</th>
+                                    <th>Birth Date</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% if patients %}
+                                {% for p in patients %}
+                                <tr>
+                                    <td>{{ p.id }}</td>
+                                    <td>{{ p.patient_name }}</td>
+                                    <td>{{ p.sex }}</td>
+                                    <td>{{ p.birth_date }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <button class="btn btn-success mt-5 pl-5 pr-5 mx-auto">CREATE</button>
+                    <a href="#" class="btn btn-danger mt-5 pl-5 pr-5 mx-auto">PATIENT HISTORY</a>
+                    <a href="#" class="btn btn-primary mt-5 pl-5 pr-5 mx-auto">MEDICINE INDEX</a>
+                </div>
+            </div>
         </div>
     </form>
+
 
 </div>
 {% endblock %}

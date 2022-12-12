@@ -1,15 +1,59 @@
 from flask import render_template, request, redirect, url_for
-from app import dao
+from app import dao, login
+from app.admin import *
 from flask import render_template, request
 import sys
+from app.models import UserRoleEnum
+from flask_login import login_user, current_user, logout_user, AnonymousUserMixin
+from app.utils import load_json
                           
 sys.path.append("./")  
 from app import dao, app
 
 
-@app.route('/login')
-def login():
-  return render_template('login.html')
+@app.route('/signin', methods=['get', 'post'])
+def user_signin():
+  err_msg=''
+  if request.method.__eq__('POST'):
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    user = dao.check_login(username=username, password=password)
+    
+    if user:
+      if user.user_role.name == 'ADMIN':
+        return redirect(url_for('admin_signin'))
+      else:
+        login_user(user=user)
+        return redirect(url_for('dashboard'))
+    else:
+      err_msg = 'Username or Password is Invalid'
+
+
+  return render_template('signin.html', err_msg=err_msg)
+
+@app.route('/login-admin', methods=['get','post'])
+def admin_signin():
+  if request.method.__eq__('POST'):
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    user = dao.check_login_admin(username=username, password=password, role=UserRoleEnum.ADMIN)
+    
+    if user:
+      login_user(user=user)
+  return redirect('/admin')
+
+  
+
+@login.user_loader
+def user_load(user_id):
+  return dao.get_user_by_id(user_id=user_id)
+
+@app.route('/logout-user')
+def user_logout():
+  logout_user()
+  return redirect(url_for('user_signin'))
 
 @app.route('/')
 def index():
@@ -17,7 +61,7 @@ def index():
 
 @app.route('/register', methods=['get', 'post'])
 def user_register():
-  err_msg=''
+  err_msg=' '
   if request.method.__eq__('POST'):
     name = request.form.get('name')
     username = request.form.get('username')
@@ -26,7 +70,7 @@ def user_register():
     try:
       if password.strip().__eq__(confirm.strip()):
         dao.add_user(name=name, username=username, password=password)
-        return redirect(url_for('user_register'))
+        return redirect(url_for('user_signin'))
       else:
         err_msg = 'Password not match'
     except Exception as ex:
@@ -37,16 +81,12 @@ def user_register():
 def home():
   return render_template('home.html')
 
-@app.route('/forgot_password')
-def forgot_password():
-  return render_template('forgot-password.html')
-
 @app.errorhandler(404)
 def page_not_found(e):
   return render_template('404.html'), 404
 
 @app.route('/create_appointment', methods=['GET', 'POST'])
-def create_schedule():
+def create_appointment():
   if request.method == 'POST':
     patient_name = request.form['patientName']
     sex = request.form['sex']
@@ -66,18 +106,33 @@ def create_bill():
 def dashboard():
   return render_template('dashboard.html')
 
+
 @app.route('/create_schedule', methods=['GET', 'POST'])
-def create_sched():
+def create_schedule():
   patients = dao.get_patients_list()
   return render_template('create_schedule.html', patients=patients)
 
 @app.route('/create_schedule/save_list')
 def save_list():
-  patients = dao.get_patients_ids()
+  patients = dao.get_patients_list()
   dao.save_schedule(patients=patients)
   return redirect('/create_schedule')
   
-
+@app.context_processor
+def common_data():
+  if hasattr(current_user, 'user_role'):
+    image_data = load_json()
+    image = ''
+    for k in image_data:
+      if k == current_user.user_role.name:
+        image = image_data[k]
+    return {
+      'image' : image
+    }
+  else:
+    return {
+      'image' : ' '
+    }
 
 if __name__ == '__main__':
   app.run(debug=True)
